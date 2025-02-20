@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Tickets</title>
+    <!-- Lien CDN pour Tailwind CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+    <!-- Header -->
+    <!-- Header -->
+    <header class="bg-white shadow-md py-4 px-6 fixed top-0 left-0 right-0 flex items-center justify-between">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="h-16">
+    
+        <!-- Affichage du nom de l'utilisateur -->
+        {% if client_name %}
+        <div class="flex items-center">
+            <span class="mr-4">{{ client_name }}</span>
+            <a href="{{ url_for('logout') }}" class="text-red-500 hover:text-red-700">
+                <i class="fas fa-sign-out-alt"></i> <!-- Icône de déconnexion -->
+            </a>
+        </div>
+        {% endif %}
+    </header>
+
+
+    <!-- Loader -->
+    <div id="loader" class="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
+        <div class="border-4 border-t-4 border-white border-opacity-30 w-16 h-16 rounded-full animate-spin"></div>
+    </div>
+
+    <!-- Contenu principal -->
+    <div id="content" class="hidden pt-24">
+        <div class="max-w-8xl mx-auto p-8">
+            <div class="flex flex-col md:flex-row gap-8">
+                <!-- Section des tickets -->
+                <div class="flex-1">
+                    <div id="ticket-cards-container"
+                        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Cartes des tickets ici -->
+                    </div>
+                </div>
+
+                <!-- Section d'informations -->
+                <div class="w-full md:w-1/4 bg-white p-6 rounded-lg shadow-md flex flex-col justify-between h-full">
+                    <div>
+                        <h4 class="text-lg font-semibold mb-4">Besoin d'aide ?</h4>
+                        <p class="text-gray-600 mb-4">
+                            Si vous avez rencontré un problème technique ou une erreur, créez un ticket pour que notre
+                            équipe puisse vous aider rapidement.
+                        </p>
+                    </div>
+                    <button id="open-modal" class="w-full bg-[#000080] text-white px-6 py-3 rounded-lg hover:bg-[#000066] mt-auto">
+                        Créer un ticket
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="ticket-modal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden">
+        <div class="bg-white rounded-lg shadow-lg p-5 w-full max-w-lg">
+            <form id="ticket-form" class="space-y-4">
+                <div class="flex justify-end items-center mb-4">
+                    <button id="close-modal" class="text-gray-500 hover:text-gray-800 text-lg">&times;</button>
+                </div>
+    
+                <div class="flex gap-4 mb-4">
+                    <!-- Nom -->
+                    <div class="flex-1">
+                        <input id="user-name" type="text"
+                            class="w-full p-2 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-blue-500"
+                            placeholder="Veuillez entrer votre nom">
+                        <div id="name-error" class="hidden text-red-500 text-sm">Veuillez entrer votre nom.</div>
+                    </div>
+    
+                    <!-- Fonction -->
+                    <div class="flex-1">
+                        <input id="user-function" type="text"
+                            class="w-full p-2 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-blue-500"
+                            placeholder="Ainsi que votre fonction">
+                        <div id="function-error" class="hidden text-red-500 text-sm">Veuillez entrer votre fonction.</div>
+                    </div>
+                </div>
+    
+                <!-- Type de problème -->
+                <div>
+                    <select id="problem-type"
+                        class="w-full p-2 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-blue-500">
+                        <option value="" disabled selected>Quel est le type de problème</option>
+                        <option value="logiciel">Logiciel</option>
+                        <option value="materiel">Matériel</option>
+                    </select>
+                </div>
+    
+                <!-- Description -->
+                <div>
+                    <textarea id="problem-description"
+                        class="w-full p-2 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-blue-500"
+                        rows="4" placeholder="Décrivez votre problème..."></textarea>
+                    <div id="description-error" class="hidden text-red-500 text-sm">Veuillez décrire votre problème.</div>
+                </div>
+    
+                <!-- Lieu (Localisation) -->
+                <div>
+                    <input id="location" type="text"
+                        class="w-full p-2 border border-gray-200 rounded focus:outline-none focus:bg-white focus:border-blue-500"
+                        placeholder="Où devons nous intervenir?">
+                    <div id="location-error" class="hidden text-red-500 text-sm">Veuillez entrer le lieu.</div>
+                </div>
+    
+                <!-- Bouton de soumission -->
+                <button type="submit"
+                    class="w-full bg-[#000080] text-white px-4 py-2 rounded-lg hover:bg-[#000066] transition">
+                    <i class="fas fa-paper-plane mr-2"></i> Soumettre
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast-container" class="fixed top-5 right-5 z-50"></div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>

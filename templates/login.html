@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion | Ogooué Technologies</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="flex items-center justify-center h-screen bg-gray-100">
+
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96 text-center">
+        <div class="flex justify-center mb-4">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo Ogooué Technologies" class="h-20">
+        </div>
+
+        <p class="text-gray-600 text-sm mb-4">Accédez à votre espace pour soumettre et suivre vos tickets de support.
+        </p>
+
+        <form method="POST">
+            <input type="password" name="password" placeholder="🔒 Entrez votre mot de passe"
+                class="w-full p-2 border border-gray-200 rounded mb-4 focus:outline-none focus:bg-white focus:border-blue-500">
+                {% if error %}
+                <p class="text-red-500 text-sm mb-4">{{ error }}</p>
+                {% endif %}
+
+            <button type="submit"
+                class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-700 transition duration-300">
+                Se connecter
+            </button>
+        </form>
+
+        <div class="mt-4">
+            <p class="text-sm text-gray-600">Besoin d'aide ? <a href="#" class="text-blue-500 hover:underline">Contactez
+                    le support</a></p>
+        </div>
+    </div>
+
+</body>
+
+</html>
